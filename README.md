@@ -1,6 +1,6 @@
-# Advent of Code Python Starter
+# Advent of Code 2022 - Python Edition
 
-A template for [Advent of Code](https://adventofcode.com) write in Python.
+What better excuse to learn python than [Advent of Code](https://adventofcode.com) 2022?
 
 ## Usage
 
@@ -75,5 +75,7 @@ Folder structure:
         └── test_day01.py
 
 Happy coding!
+
+Based on https://github.com/ljgago/advent-of-code-python-starter 
 
 [MIT License](LICENSE)
