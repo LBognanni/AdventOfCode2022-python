@@ -19,4 +19,5 @@ def test_part1():
 #
 
 def test_part2():
-    assert part2.result(None) == None
+    
+    assert part2.result(test_input) == 70
