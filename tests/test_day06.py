@@ -16,4 +16,7 @@ def test_part1():
 #
 
 def test_part2():
-    assert part2.result(None) == None
+    assert part2.result(["mjqjpqmgbljsphdztnvjfqwrcgsmlb"]) == 19
+    assert part2.result(["bvwbjplbgvbhsrlpgdmjqwftvncz"]) == 23
+    assert part2.result(["nppdvjthqldpwncqszvftbrmjlhg"]) == 23
+    assert part2.result(["nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"]) == 29
