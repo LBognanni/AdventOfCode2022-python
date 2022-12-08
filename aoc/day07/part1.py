@@ -6,10 +6,10 @@ def update_size(folders, current, size):
         update_size(folders, folders[current]["parent"], size)
 
 
-def result(input):
+def parse_folders(input):
     folders = {
-        "//": {
-            "name": "//",
+        "/": {
+            "name": "/",
             "parent": "",
             "size": 0
         }
@@ -41,5 +41,9 @@ def result(input):
             content = line.split(" ")
             if content[0] != "dir":
                 update_size(folders, current, int(content[0]))
+    return folders
 
+
+def result(input):
+    folders = parse_folders(input)
     return sum(filter(lambda x: x<=100000, map(lambda x: x["size"], folders.values())))
