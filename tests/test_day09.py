@@ -20,5 +20,15 @@ def test_part1():
 # --- Part Two ---
 #
 
+test_input_2 = """R 5
+U 8
+L 8
+D 3
+R 17
+D 10
+L 25
+U 20""".split("\n")
+
 def test_part2():
-    assert part2.result(None) == None
+    assert part2.result(test_input) == 1
+    assert part2.result(test_input_2) == 36

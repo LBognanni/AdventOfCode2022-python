@@ -7,6 +7,13 @@ strategy = {
     "R": lambda x,y: (x+1, y)
 }
 
+def clamp(n):
+    if n < -1:
+        return -1
+    if n > 1:
+        return 1
+    return n
+
 def move_tail(tail_pos, head_pos):
     (hx,hy) = head_pos
     (tx, ty) = tail_pos
@@ -16,16 +23,7 @@ def move_tail(tail_pos, head_pos):
     if -1 <= dx <= 1 and -1 <= dy <= 1:
         return (tx, ty)
     
-    if dx == -2:
-        return (tx - 1, ty + dy)
-    if dx == 2:
-        return (tx + 1, ty + dy)
-    if dy == -2:
-        return (tx + dx, ty - 1)
-    if dy == 2:
-        return (tx + dx, ty + 1)
-        
-    return (tx, ty)
+    return (tx + clamp(dx), ty + clamp(dy))
 
 def result(input:list[str]):
 
