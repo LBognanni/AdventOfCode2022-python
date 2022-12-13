@@ -33,9 +33,9 @@ def compare_things(left, right) -> int:
                     return result
 
             if len(left) < len(right):
-                return 1
-            elif len(left) > len(right):
                 return -1
+            elif len(left) > len(right):
+                return 1
 
             return 0 # they're the same
         else:
@@ -45,11 +45,11 @@ def compare_things(left, right) -> int:
             return compare_things([left], right)
         else:
             if left < right:
-                return 1
+                return -1
             elif left == right:
                 return 0
             else: 
-                return -1
+                return 1
 
 
 def result(input):
@@ -57,7 +57,7 @@ def result(input):
     result = 0
 
     for i in range(0, len(items)):
-        if compare_things(items[i][0], items[i][1]) == 1:
+        if compare_things(items[i][0], items[i][1]) == -1:
             result += (i+1)
     
     return result
