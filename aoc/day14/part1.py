@@ -27,7 +27,7 @@ def expandLines(segments:list[list[list]]) -> set[tuple[int, int]]:
     return points
 
 
-def result(input:list[str]):
+def run_sand(input:list[str], add_floor):
     segments = [parseLine(line) for line in input]
     allTheCoords = reduce(lambda acc, sg: acc + sg, segments, [[500, 0]])
     
@@ -42,6 +42,9 @@ def result(input:list[str]):
     points = expandLines(segments)
     startpoints = points.copy()
     sandUnits = 0
+
+    if(add_floor):
+        maxY +=2
     
     
     #print_things(startpoints, [], minX, minY, maxX, maxY)
@@ -50,15 +53,24 @@ def result(input:list[str]):
         pos = (500, 0)
         for x in range(0, 1000):
 
-            if(pos[0] < minX) or (pos[0] > maxX) or (pos[1] > maxY):
+
+            if(pos[1] > maxY):
                 #print_things(startpoints, points, minX, minY, maxX, maxY)
                 return sandUnits
-                
+            
+            if add_floor and (pos[1] == maxY - 1):
+                points.add(pos)
+                break
+            
             if (pos[0], pos[1] + 1) in points:
                 if (pos[0]-1, pos[1] + 1) in points:
                     if (pos[0]+1, pos[1] + 1) in points:
-                        points.add(pos)
-                        break
+                        if(pos in points):
+                            #print_things(startpoints, points, minX, minY, maxX, maxY)
+                            return sandUnits
+                        else:
+                            points.add(pos)
+                            break
                     else:
                         pos = (pos[0]+1, pos[1] + 1)
                 else:
@@ -66,14 +78,15 @@ def result(input:list[str]):
             else:
                 pos = (pos[0], pos[1] + 1)
 
+
             if(x > 900):
                 print_things(startpoints, points, minX, minY, maxX, maxY)
                 raise "oops"
 
         sandUnits+=1
 
-    return None
-
+def result(input):
+    return run_sand(input, False)
 
 
 def print_things(startpoints, points, minx, miny, maxx, maxy):
