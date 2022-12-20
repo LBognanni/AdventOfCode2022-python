@@ -2,9 +2,9 @@
 
 ## Part One
 
-TODO: Content
+slow but working #success
 
 ## Part Two
 
-TODO: Content
+it... finished eventually, after consuming about 10gb or RAM 😅
 
