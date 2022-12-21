@@ -22,6 +22,9 @@ class Monkey:
             self.Type = MonkeyType.Operation
 
 def Traverse(monkeys:dict[str, Monkey], who:str):
+    if(not isinstance(who, str)):
+        return who
+        
     monkey:Monkey = monkeys[who]
     if(monkey.Type == MonkeyType.Value):
         return monkey.Value
@@ -35,7 +38,7 @@ def Traverse(monkeys:dict[str, Monkey], who:str):
     elif monkey.Operation == "*":
         return left * right
     elif monkey.Operation == "/":
-        return left / right
+        return int(left / right)
     
     raise ValueError("Unknown operation")
 
