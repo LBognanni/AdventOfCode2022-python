@@ -1,8 +1,6 @@
 # Advent of Code - Day 21 - Part One
 from enum import Enum
 
-# class syntax
-
 class MonkeyType(Enum):
     Value = 1
     Operation = 2
@@ -24,7 +22,7 @@ class Monkey:
 def Traverse(monkeys:dict[str, Monkey], who:str):
     if(not isinstance(who, str)):
         return who
-        
+
     monkey:Monkey = monkeys[who]
     if(monkey.Type == MonkeyType.Value):
         return monkey.Value
