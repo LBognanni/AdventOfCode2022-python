@@ -8,24 +8,29 @@ def parse_input(input:list[str]) -> Iterable[tuple[int, int]]:
             if(line[x] == "#"):
                 yield (x, y)
 
-def move(elves:list[tuple[int, int]], strategies:list, start:int) -> Iterable[tuple[int, int]]:
+def move(elves:set[tuple[int, int]], strategies:list, start:int) -> tuple[set[tuple[int, int]], bool]:
     newMoves = []
+    someone_moved = False
+    final_moves = set()
+
     for x,y in elves:
         newPos = (x,y)
 
-        neighbours = 0
+        neighbours = False
         for xx in range(x-1, x+2):
             for yy in range(y-1, y+2):
                 if xx == x and yy == y:
                     continue
                 if (xx, yy) in elves:
-                    neighbours+=1
+                    neighbours = True
+                    break
+            if neighbours: break
 
-        if neighbours > 0:
+        if neighbours:
             for i in range(0, 4):
                 found = True
-                strategy:tuple[list[tuple[int, int]], tuple[int, int]] = strategies[(start + i) % 4](x,y)
-                for p in strategy[0]:
+                strategy:list[tuple[int, int]] = strategies[(start + i) % 4](x,y)
+                for p in strategy:
                     if p in elves:
                         found = False
                         break
@@ -33,16 +38,19 @@ def move(elves:list[tuple[int, int]], strategies:list, start:int) -> Iterable[tu
                     newPos = strategy[1]
                     break
 
-        newMoves.append(newPos)
-    
-    for i in range(len(elves)):
-        newPos = newMoves[i]
-        oldPos = elves[i]
-        others = [p for p in newMoves if p == newPos]
-        if len(others) == 1:
-            yield newPos
+            newMoves.append(((x,y), newPos))
         else:
-            yield oldPos
+            final_moves.add(newPos)
+    
+    for oldPos, newPos in newMoves:
+        others = [1 for p in newMoves if p[1] == newPos]
+        if len(others) == 1:
+            someone_moved = True
+            final_moves.add(newPos)
+        else:
+            final_moves.add(oldPos)
+
+    return (final_moves, someone_moved)
 
 def print_elves(elves:list[tuple[int, int]]):
     Xs = [p[0] for p in elves]
@@ -56,13 +64,13 @@ def print_elves(elves:list[tuple[int, int]]):
         print("")
 
 def result(input):
-    elves = list(parse_input(input))
+    elves = set(parse_input(input))
 
     strategies = [
-        lambda x,y: ([(x-1, y-1), (x, y-1), (x+1, y-1)], (x, y-1)),
-        lambda x,y: ([(x-1, y+1), (x, y+1), (x+1, y+1)], (x, y+1)),
-        lambda x,y: ([(x-1, y-1), (x-1, y), (x-1, y+1)], (x-1, y)),
-        lambda x,y: ([(x+1, y-1), (x+1, y), (x+1, y+1)], (x+1, y))
+        lambda x,y: [(x-1, y-1), (x, y-1), (x+1, y-1)],
+        lambda x,y: [(x-1, y+1), (x, y+1), (x+1, y+1)],
+        lambda x,y: [(x-1, y-1), (x-1, y), (x-1, y+1)],
+        lambda x,y: [(x+1, y-1), (x+1, y), (x+1, y+1)]
     ]
 
     #print("\nSTART ")
@@ -70,7 +78,7 @@ def result(input):
     #print("")
 
     for i in range(10):
-        elves = list(move(elves, strategies, i))
+        (elves, _) = move(elves, strategies, i)
         #print("ROUND ", i)
         #print_elves(elves)
         #print("")
