@@ -56,7 +56,7 @@ class Puzzle:
         
         self.Trips.add(self.Start)
 
-    def Tick(self):
+    def Tick(self, goal:tuple[int, int]):
         for y in range(1, self.Height - 1):
             for x in range(1, self.Width - 1):
                 self.Map[y][x] = False
@@ -71,10 +71,10 @@ class Puzzle:
         newTrips = set()
         for (x,y) in self.Trips:
 
-            if((x,y) == self.End):
+            if((x,y) == goal):
                 return True
 
-            if y < self.Height and not self.Map[y+1][x]:
+            if y < self.Height and (x,y) != self.End and not self.Map[y+1][x]:
                 newTrips.add((x, y+1))
             if not self.Map[y][x+1]:
                 newTrips.add((x+1, y))
@@ -111,7 +111,7 @@ class Puzzle:
 def result(input:list[str]):
     p = Puzzle(input)
     for i in range(20000):
-        if p.Tick():
+        if p.Tick(p.End):
             return i
         #print(i)
         #p.print_map()
